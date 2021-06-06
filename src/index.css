@@ -15,6 +15,7 @@
 @import url('./blocks/auth/__signin/auth__signin.css');
 @import url('./blocks/auth/__signin/auth__signin.css');
 @import url('./blocks/auth/__login-link/auth__login-link.css');
+@import url('./blocks/auth/__reg-question/auth__reg-question.css');
 
 @import url('./blocks/header/header.css');
 @import url('./blocks/header/__auth-container/header__auth-container.css');

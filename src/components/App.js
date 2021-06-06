@@ -1,9 +1,7 @@
 import React from 'react';
 import { Route, Switch, Redirect, useHistory } from "react-router-dom";
-import ProtectedRoute from './ProtectedRoute'
-import Header from './Header';
+import ProtectedRoute from './ProtectedRoute';
 import Main from './Main';
-import Footer from './Footer';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import ImagePopup from './ImagePopup';
@@ -14,15 +12,13 @@ import InfoTooltip from './InfoTooltip';
 import { api } from '../utils/api';
 import * as auth from '../utils/auth';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import notifySuccess from '../images/popup/popup__notify-success.png'
-import notifyFailed from '../images/popup/popup__notify-failed.png'
+
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [isSuccessTooltipPopupOpen, setIsSuccessTooltipPopupOpen] = React.useState(false);
-  const [isFailedToltipPopupOpen, setIsFailedToltipPopupOpen] = React.useState(false);
+  const [isInfoToltipPopupOpen, setIsInfoToltipPopupOpen] = React.useState(false);
 
   const [loggedIn, setLoggedIn] = React.useState(false)
   const [userData, setUserData] = React.useState({})
@@ -63,14 +59,9 @@ function App() {
     setIsAddPlacePopupOpen(true);
   }
 
-  function handleSuccessTooltipClick() {
-    setIsSuccessTooltipPopupOpen(true);
+  function handleInfoTooltipClick() {
+    setIsInfoToltipPopupOpen(true)
   }
-
-  function handlFailedToltipClick() {
-    setIsFailedToltipPopupOpen(true);
-  }
-
 
   function handleCardClick(item) {
     setSelectedCard(item);
@@ -81,8 +72,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsAddPlacePopupOpen(false);
-    setIsSuccessTooltipPopupOpen(false);
-    setIsFailedToltipPopupOpen(false);
+    setIsInfoToltipPopupOpen(false)
     setSelectedCard({});
   }
 
@@ -158,11 +148,11 @@ function App() {
           _id, email
         });
         setLoggedIn(true);
-        handleSuccessTooltipClick();
+        handleInfoTooltipClick();
       })
      .catch(error => {
       console.log(error);
-      handlFailedToltipClick();
+      handleInfoTooltipClick();
      });
        
   }
@@ -207,14 +197,8 @@ function App() {
         <div className="page">
           
           <Switch>
-            <Route path='/main'>
-              <ProtectedRoute loggedIn={loggedIn} component={Header}>
-                <p className="header__auth-email">{userData.email}</p>
-                <button onClick={handleLogout} className="header__logout-link">Выйти</button>
-              </ProtectedRoute>
-              <ProtectedRoute loggedIn={loggedIn} component={Main} onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onCardClick={handleCardClick} onCardLike={handleCardLike} onCardDelete={handleCardDelete} cards={cards}/>
-              <ProtectedRoute loggedIn={loggedIn} component={Footer} />
-            </Route>
+            <ProtectedRoute path='/main' component={Main} loggedIn={loggedIn} userData={userData} handleLogout={handleLogout} onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onCardClick={handleCardClick} onCardLike={handleCardLike} onCardDelete={handleCardDelete} cards={cards}>
+            </ProtectedRoute>
             <Route path="/signup">
               <Register handleRegister={handleRegister} />
             </Route>
@@ -226,9 +210,7 @@ function App() {
             </Route>
           </Switch>
 
-          <InfoTooltip isOpen={isSuccessTooltipPopupOpen} handleClickClose={handleOverlayClose} onClose={closeAllPopups} notifyTitle={'Вы успешно зарегистрировались!'} notifyType={notifySuccess} />
-
-          <InfoTooltip isOpen={isFailedToltipPopupOpen} handleClickClose={handleOverlayClose} onClose={closeAllPopups} notifyTitle={'Что-то пошло не так! Попробуйте ещё раз.'} notifyType={notifyFailed} />
+          <InfoTooltip isOpen={isInfoToltipPopupOpen} loggedIn={loggedIn} handleClickClose={handleOverlayClose} onClose={closeAllPopups} />
             
           <ImagePopup card={selectedCard} handleClickClose={handleOverlayClose} onClose={closeAllPopups} />
 
