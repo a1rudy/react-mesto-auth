@@ -1,6 +1,6 @@
 # Проект: "Место" на React с регистрацией и авторизацией.
 
-[Ссылка на проект](https://a1rudy.github.io/mesto-react-auth/)
+[Ссылка на проект](https://a1rudy.github.io/react-mesto-auth/)
 
 ------
 
