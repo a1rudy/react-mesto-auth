@@ -19,7 +19,7 @@ function Login({ handleLogin }) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    let { password, email } = data;
+    const { password, email } = data;
     handleLogin({ password, email });
   }
   
