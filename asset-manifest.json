@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/react-mesto-auth/static/css/main.542a539e.chunk.css",
-    "main.js": "/react-mesto-auth/static/js/main.a2b482b6.chunk.js",
-    "main.js.map": "/react-mesto-auth/static/js/main.a2b482b6.chunk.js.map",
-    "runtime-main.js": "/react-mesto-auth/static/js/runtime-main.8d309265.js",
-    "runtime-main.js.map": "/react-mesto-auth/static/js/runtime-main.8d309265.js.map",
-    "static/js/2.acc37624.chunk.js": "/react-mesto-auth/static/js/2.acc37624.chunk.js",
-    "static/js/2.acc37624.chunk.js.map": "/react-mesto-auth/static/js/2.acc37624.chunk.js.map",
-    "static/js/3.a6ae154e.chunk.js": "/react-mesto-auth/static/js/3.a6ae154e.chunk.js",
-    "static/js/3.a6ae154e.chunk.js.map": "/react-mesto-auth/static/js/3.a6ae154e.chunk.js.map",
-    "index.html": "/react-mesto-auth/index.html",
-    "static/css/main.542a539e.chunk.css.map": "/react-mesto-auth/static/css/main.542a539e.chunk.css.map",
-    "static/js/2.acc37624.chunk.js.LICENSE.txt": "/react-mesto-auth/static/js/2.acc37624.chunk.js.LICENSE.txt",
-    "static/media/index.css": "/react-mesto-auth/static/media/profile__edit-button_size_mobile.6a1d99b1.svg",
-    "static/media/header__logo.03b78ada.svg": "/react-mesto-auth/static/media/header__logo.03b78ada.svg"
+    "main.css": "/static/css/main.6dc2307f.chunk.css",
+    "main.js": "/static/js/main.e54d77f3.chunk.js",
+    "main.js.map": "/static/js/main.e54d77f3.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.6b528773.js",
+    "runtime-main.js.map": "/static/js/runtime-main.6b528773.js.map",
+    "static/js/2.ea78af16.chunk.js": "/static/js/2.ea78af16.chunk.js",
+    "static/js/2.ea78af16.chunk.js.map": "/static/js/2.ea78af16.chunk.js.map",
+    "static/js/3.e4722ff4.chunk.js": "/static/js/3.e4722ff4.chunk.js",
+    "static/js/3.e4722ff4.chunk.js.map": "/static/js/3.e4722ff4.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.6dc2307f.chunk.css.map": "/static/css/main.6dc2307f.chunk.css.map",
+    "static/js/2.ea78af16.chunk.js.LICENSE.txt": "/static/js/2.ea78af16.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/static/media/profile__edit-button_size_mobile.6a1d99b1.svg",
+    "static/media/header__logo.03b78ada.svg": "/static/media/header__logo.03b78ada.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.8d309265.js",
-    "static/js/2.acc37624.chunk.js",
-    "static/css/main.542a539e.chunk.css",
-    "static/js/main.a2b482b6.chunk.js"
+    "static/js/runtime-main.6b528773.js",
+    "static/js/2.ea78af16.chunk.js",
+    "static/css/main.6dc2307f.chunk.css",
+    "static/js/main.e54d77f3.chunk.js"
   ]
 }
