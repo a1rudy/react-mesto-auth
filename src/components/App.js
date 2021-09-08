@@ -33,19 +33,17 @@ function App() {
   const history = useHistory();
 
   React.useEffect(() => {
-    if(loggedIn) {
+    if (loggedIn) {
       Promise.all([api.getUserProfile(), api.getInitialCards()])
       .then(([user, data]) => {
         setCurrentUser(user);
         setCards(data.reverse());
-        history.push('/main')
       })
       .catch((error) => {
         console.log(error);
       });
     }
-    checkToken();
-  }, [history, loggedIn]);
+  }, [loggedIn]);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -74,30 +72,30 @@ function App() {
   }
 
   React.useEffect(() => {
-
-  function handleEscClose(evt) {
-    const ESC_KEYCODE = 'Escape';
-    evt.key === ESC_KEYCODE && closeAllPopups();
-  }
-
-  function handleOverlayClose(evt) {
-    const evtTarget = evt.target;
-    if (evtTarget.classList.contains('popup')) {
-      closeAllPopups();
+    function handleEscClose(evt) {
+      const ESC_KEYCODE = 'Escape';
+      evt.key === ESC_KEYCODE && closeAllPopups();
     }
-  }
 
-  window.addEventListener('keydown', handleEscClose);
-  window.addEventListener('click', handleOverlayClose);
+    function handleOverlayClose(evt) {
+      const evtTarget = evt.target;
+      if (evtTarget.classList.contains('popup')) {
+        closeAllPopups();
+      }
+    }
 
-  return () => {
-    window.removeEventListener('click', handleOverlayClose);
-    window.removeEventListener('keydown', handleEscClose);
-  };
+    window.addEventListener('keydown', handleEscClose);
+    window.addEventListener('click', handleOverlayClose);
 
-}, []);
+    return () => {
+      window.removeEventListener('click', handleOverlayClose);
+      window.removeEventListener('keydown', handleEscClose);
+    };
+  }, []);
 
+  const [isUserSending, setIsUserSending] = React.useState(false);
   function handleUpdateUser(data) {
+    setIsUserSending(true);
     api.setUserProfile(data)
       .then((dataInfo) => {
         setCurrentUser(dataInfo);
@@ -105,31 +103,35 @@ function App() {
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
+      .finally(() => setIsUserSending(false));
   }
 
-  function handleUpdateAvatar(data, onSuccess) {
+  function handleUpdateAvatar(data) {
+    setIsUserSending(true);
     api.setUserAvatar(data)
       .then((dataAvatar) => {
         setCurrentUser(dataAvatar);
         closeAllPopups();
-        onSuccess();
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
+      .finally(() => setIsUserSending(false));
   }
 
-  function handleAddPlaceSubmit(data, onSuccess) {
+  const [isCardSending, setIsCardSending] = React.useState(false);
+  function handleAddPlaceSubmit(data) {
+    setIsCardSending(true);
     api.addNewCard(data)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
-        onSuccess();
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
+      .finally(() => setIsCardSending(false));
   }
 
   function handleCardLike(card) {
@@ -168,7 +170,6 @@ function App() {
           text: 'Вы успешно зарегистрировались', 
           iconType: 'success'
         });
-        
       })
      .catch(error => {
       console.log(error);
@@ -185,23 +186,31 @@ function App() {
         localStorage.setItem('jwt', data.token)
         setLoggedIn(true);
         setEmail(email);
+        history.push('/main');
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.log(error)
+        setTooltipStatus({
+          text: 'Что-то пошло не так!  Попробуйте ещё раз.', 
+          iconType: 'error'
+        });
+      });
   }
 
-  function checkToken() {
-    const jwt = localStorage.getItem('jwt')
-
-    if (jwt) {
-      auth.getContent(jwt)
-        .then(user => {
-          const { email } = user;
-          setEmail(email);
-          setLoggedIn(true);
-        })
-        .catch(error => console.log(error));
+  React.useEffect(() => {
+    const token = localStorage.getItem('jwt');
+    if (token){
+      auth.getContent(token)
+      .then((data) => {
+        setEmail(email);
+        setLoggedIn(true);
+        history.push('/main');
+      })
+      .catch(() => {
+        localStorage.removeItem('jwt');
+      })
     }
-  }
+  }, [history]);
 
   function handleLogout() {
     setLoggedIn(false);
@@ -232,11 +241,11 @@ function App() {
             
           <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
-          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} /> 
+          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} isSending={isUserSending} /> 
 
-          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} /> 
+          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} isSending={isUserSending} /> 
 
-          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
+          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} isSending={isCardSending} />
 
           <DelPlacePopup isOpen={isDelPlacePopupOpen} onClose={closeAllPopups} onDelPlace={handleCardDelete} />
 
